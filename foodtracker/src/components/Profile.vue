@@ -13,7 +13,7 @@
       <div class="card-content relative pt-6">
         <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
           <div class="avatar h-24 w-24">
-            <span class="fallback text-2xl">{{ props.userProfile.name.split(' ').map(n => n[0]).join('') }}</span>
+            <span class="fallback text-2xl">{{ props.userProfile?.name?.split(' ').map(n => n[0]).join('') || '' }}</span>
           </div>
           
           <div class="flex-1 space-y-4">

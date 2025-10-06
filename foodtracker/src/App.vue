@@ -1,37 +1,18 @@
 <template>
   <div id="app">
-    <Layout 
-      :active-tab="activeTab" 
-      @tab-change="handleTabChange"
-      :notifications="notifications"
-      :user-profile="userProfile"
-    >
-      <component :is="currentComponent" 
-        :food-items="foodItems"
-        :custom-recipes="customRecipes"
-        :bookmarked-recipes="bookmarkedRecipes"
-        :waste-history="wasteHistory"
-        :usage-history="usage-history"
-        :user-score="userScore"
-        :user-rank="5"
-        :initial-search-term="recipeSearchTerm"
-        @use-item="handleUseItem"
-        @edit-item="handleEditItem"
-        @add-food="handleAddFood"
-        @add-custom-recipe="handleAddCustomRecipe"
-        @bookmark-recipe="handleBookmarkRecipe"
-        @mark-as-read="handleMarkNotificationRead"
-        @update-profile="handleUpdateProfile"
-        @find-recipe="handleFindRecipe"
-      />
+    <Layout :active-tab="activeTab" @tab-change="handleTabChange" :notifications="notifications"
+      :user-profile="userProfile">
+      <component :is="currentComponent" :food-items="foodItems" :custom-recipes="customRecipes"
+        :bookmarked-recipes="bookmarkedRecipes" :waste-history="wasteHistory" :usage-history="usage - history"
+        :user-score="userScore" :user-rank="5" :initial-search-term="recipeSearchTerm" @use-item="handleUseItem"
+        @edit-item="handleEditItem" @add-food="handleAddFood" @add-custom-recipe="handleAddCustomRecipe"
+        @bookmark-recipe="handleBookmarkRecipe" @mark-as-read="handleMarkNotificationRead"
+        @update-profile="handleUpdateProfile" @find-recipe="handleFindRecipe" />
     </Layout>
 
     <!-- Floating Add Food Button - Only show on dashboard -->
-    <button
-      v-if="activeTab === 'dashboard'"
-      @click="showAddFoodModal = true"
-      class="fixed bottom-6 right-6 h-14 px-6 rounded-full shadow-lg hover:shadow-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white z-50 transition-all duration-200 hover:scale-105 whitespace-nowrap"
-    >
+    <button v-if="activeTab === 'dashboard'" @click="showAddFoodModal = true"
+      class="fixed bottom-6 right-6 h-14 px-6 rounded-full shadow-lg hover:shadow-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white z-50 transition-all duration-200 hover:scale-105 whitespace-nowrap">
       <span class="mr-2">+</span> Add Food
     </button>
 
@@ -59,6 +40,13 @@ import Notifications from './components/Notifications.vue';
 import Tools from './components/Tools.vue';
 import Community from './components/Community.vue';
 
+//Database stuff
+import { db } from './firebase';
+import { collection, getDocs } from 'firebase/firestore';
+
+
+
+
 // State
 const activeTab = ref('dashboard');
 const previousTab = ref('dashboard');
@@ -80,7 +68,20 @@ const userProfile = ref({
 });
 
 // Initial Data
-onMounted(() => {
+onMounted(async () => {
+  //DATA FROM FIRESTORE
+  // const querySnapshot = await getDocs(collection(db, "food"));
+  // foodItems.value = querySnapshot.docs.map(doc => {
+  //   const data = doc.data();
+  //   // Convert Firestore Timestamp to JS Date
+  //   return {
+  //     id: doc.id,
+  //     ...data,
+  //     expirationDate: data.expirationDate && data.expirationDate.seconds
+  //       ? new Date(data.expirationDate.seconds * 1000)
+  //       : new Date(data.expirationDate)
+  //   };
+  // });
   const sampleItems = [
     {
       id: '1',
