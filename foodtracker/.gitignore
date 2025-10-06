@@ -28,4 +28,4 @@ coverage
 *.sw?
 
 *.tsbuildinfo
-foodtracker/src/firebase.js
+/src/firebase.js
