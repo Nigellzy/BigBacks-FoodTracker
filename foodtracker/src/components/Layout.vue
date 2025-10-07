@@ -155,7 +155,7 @@ const navigation = [
   { id: 'dashboard', name: 'Dashboard', icon: 'HomeIcon' },
   { id: 'recipes', name: 'Recipes', icon: 'ChefHatIcon' },
   { id: 'community', name: 'Community', icon: 'UsersIcon' },
-  // { id: 'analytics', name: 'Analytics', icon: 'BarChartIcon' },
+  { id: 'analytics', name: 'Analytics', icon: 'BarChartIcon' },
   { id: 'leaderboard', name: 'Leaderboard', icon: 'TrophyIcon' },
 ];
 

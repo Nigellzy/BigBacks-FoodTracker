@@ -31,9 +31,9 @@
 import { ref, computed, onMounted } from 'vue';
 import Layout from './components/Layout.vue';
 import Dashboard from './components/Dashboard.vue';
-import AddFood from './components/AddFood.vue';
+import AddFood from './components/dashboard/AddFood.vue';
 import Recipes from './components/Recipes.vue';
-// import Analytics from './components/Analytics.vue';
+import Analytics from './components/Analytics.vue';
 import Leaderboard from './components/Leaderboard.vue';
 import Profile from './components/Profile.vue';
 import Notifications from './components/Notifications.vue';
@@ -42,8 +42,7 @@ import Community from './components/Community.vue';
 
 //Database stuff
 import { db } from './firebase';
-import { collection, getDocs } from 'firebase/firestore';
-
+import { collection, getDocs, onSnapshot } from 'firebase/firestore';
 
 
 
@@ -70,68 +69,71 @@ const userProfile = ref({
 // Initial Data
 onMounted(async () => {
   // DATA FROM FIRESTORE
-  // const querySnapshot = await getDocs(collection(db, "food"));
-  // foodItems.value = querySnapshot.docs.map(doc => {
-  //   const data = doc.data();
-  //   // Convert Firestore Timestamp to JS Date
-  //   return {
-  //     id: doc.id,
-  //     ...data,
-  //     expirationDate: data.expirationDate && data.expirationDate.seconds
-  //       ? new Date(data.expirationDate.seconds * 1000)
-  //       : new Date(data.expirationDate)
-  //   };
-  // });
-  // console.log(foodItems.value);
+  const foodCollection = collection(db, "food");
+  onSnapshot(foodCollection, (querySnapshot) => {
+    foodItems.value = querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      // Convert Firestore Timestamp to JS Date
+      return {
+        id: doc.id,
+        ...data,
+        expirationDate: data.expirationDate && data.expirationDate.seconds
+          ? new Date(data.expirationDate.seconds * 1000)
+          : new Date(data.expirationDate)
+        };
+      });
+    });
 
-  const sampleItems = [
-    {
-      id: '1',
-      name: 'Apples',
-      expirationDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // 2 days
-      quantity: 6,
-      unit: 'pieces',
-      price: 3.99,
-      category: 'Fruits & Vegetables'
-    },
-    {
-      id: '2',
-      name: 'Milk',
-      expirationDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // 1 day
-      quantity: 1,
-      unit: 'liter',
-      price: 2.49,
-      category: 'Dairy & Eggs'
-    },
-    {
-      id: '3',
-      name: 'Chicken Breast',
-      expirationDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days
-      quantity: 500,
-      unit: 'grams',
-      price: 8.99,
-      category: 'Meat & Poultry'
-    },
-    {
-      id: '4',
-      name: 'Bread',
-      expirationDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days
-      quantity: 1,
-      unit: 'loaf',
-      price: 2.99,
-      category: 'Bakery'
-    },
-    {
-      id: '5',
-      name: 'Yogurt',
-      expirationDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-      quantity: 4,
-      unit: 'cups',
-      price: 4.99,
-      category: 'Dairy & Eggs'
-    }
-  ];
-  foodItems.value = sampleItems;
+  console.log(foodItems.value);
+
+  // const sampleItems = [
+  //   {
+  //     id: '1',
+  //     name: 'Apples',
+  //     expirationDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // 2 days
+  //     quantity: 6,
+  //     unit: 'pieces',
+  //     price: 3.99,
+  //     category: 'Fruits & Vegetables'
+  //   },
+  //   {
+  //     id: '2',
+  //     name: 'Milk',
+  //     expirationDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // 1 day
+  //     quantity: 1,
+  //     unit: 'liter',
+  //     price: 2.49,
+  //     category: 'Dairy & Eggs'
+  //   },
+  //   {
+  //     id: '3',
+  //     name: 'Chicken Breast',
+  //     expirationDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days
+  //     quantity: 500,
+  //     unit: 'grams',
+  //     price: 8.99,
+  //     category: 'Meat & Poultry'
+  //   },
+  //   {
+  //     id: '4',
+  //     name: 'Bread',
+  //     expirationDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days
+  //     quantity: 1,
+  //     unit: 'loaf',
+  //     price: 2.99,
+  //     category: 'Bakery'
+  //   },
+  //   {
+  //     id: '5',
+  //     name: 'Yogurt',
+  //     expirationDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+  //     quantity: 4,
+  //     unit: 'cups',
+  //     price: 4.99,
+  //     category: 'Dairy & Eggs'
+  //   }
+  // ];
+  // foodItems.value = sampleItems;
 
   const sampleWaste = [
     {
@@ -294,7 +296,7 @@ const currentComponent = computed(() => {
   const components = {
     dashboard: Dashboard,
     recipes: Recipes,
-    // analytics: Analytics,
+    analytics: Analytics,
     leaderboard: Leaderboard,
     profile: Profile,
     tools: Tools,
