@@ -33,7 +33,7 @@ import Layout from './components/Layout.vue';
 import Dashboard from './components/Dashboard.vue';
 import AddFood from './components/AddFood.vue';
 import Recipes from './components/Recipes.vue';
-import Analytics from './components/Analytics.vue';
+// import Analytics from './components/Analytics.vue';
 import Leaderboard from './components/Leaderboard.vue';
 import Profile from './components/Profile.vue';
 import Notifications from './components/Notifications.vue';
@@ -69,7 +69,7 @@ const userProfile = ref({
 
 // Initial Data
 onMounted(async () => {
-  //DATA FROM FIRESTORE
+  // DATA FROM FIRESTORE
   // const querySnapshot = await getDocs(collection(db, "food"));
   // foodItems.value = querySnapshot.docs.map(doc => {
   //   const data = doc.data();
@@ -82,6 +82,8 @@ onMounted(async () => {
   //       : new Date(data.expirationDate)
   //   };
   // });
+  // console.log(foodItems.value);
+
   const sampleItems = [
     {
       id: '1',
@@ -292,7 +294,7 @@ const currentComponent = computed(() => {
   const components = {
     dashboard: Dashboard,
     recipes: Recipes,
-    analytics: Analytics,
+    // analytics: Analytics,
     leaderboard: Leaderboard,
     profile: Profile,
     tools: Tools,
